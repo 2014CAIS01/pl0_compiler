@@ -9,13 +9,25 @@
 #include <vector>
 
 /**
- * Grammer: 
- * _expr -> _plus expr | expr
- * expr -> term {_plus term}
+ * BNF: 
+ * expr -> [_plus] term {_plus term}
  * term -> factor {_times factor}
  * factor -> ident | number | lparen _expr rparen
  * _plus -> plus | minus
  * _times -> times | slash
+*/
+
+/*
+ * LL(1):
+ * e -> PE | E
+ * E -> TE'
+ * E' -> PTE' | #
+ * T -> FT'
+ * T' -> MFT' | #
+ * F -> I | (e)
+ * P -> + | -
+ * M -> * | /
+ * I -> i | n
 */
 
 enum Object

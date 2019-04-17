@@ -59,44 +59,53 @@ Object getObject(const std::string& s)
     throw NoSuchObjectException();
 }
 
-ExpressionException::ExpressionException(Object obj)
-{
-    msg = getErrorMessage(obj);
-}
+ExpressionException::ExpressionException(Object obj) { msg = (getErrorMessage(obj)); }
 
 std::string ExpressionException::getErrorMessage(Object obj)
 {
+    std::string msg = "Unexpect ";
     switch (obj)
     {
-    case __expr:
-    case Expr:
-    case expr:
-        return "Missing a term.";
-    case Term:
-    case term:
-        return "Missing a factor.";
-    case Factor:
-        return "Missing an expression an indent or a number.";
-    case Plus:
-        return "Missing + or -.";
-    case Multi:
-        return "Missing * or /.";
-    case Ident:
-        return "Missing an indent or a number.";
+    case ident:
+        msg += "ident";
+        break;
+    case number:
+        msg += "number";
+        break;
+    case plus:
+        msg += "operator \"+\"";
+        break;
+    case minus:
+        msg += "operator \"-\"";
+        break;
+    case times:
+        msg += "operator \"*\"";
+        break;
+    case slash:
+        msg += "operator \"/\"";
+        break;
+    case lparen:
+        msg += "\"(\"";
+        break;
     case rparen:
-        return "Missing a ).";
+        msg += "\")\"";
+        break;
     case __nuil:
-        return "Expect EOF.";
-    default: // :(
-        return "Unknown error!";
+        msg += "EOF";
+        break;
+    default:
+        throw NoSuchObjectException();
+        break;
     }
+    msg.push_back('.');
+    return msg;
 }
 
 std::vector<Object> ExpressionAnalyzer::getNext(Object current, Object type)
 {
     auto t = f.find(current)->second;
     auto it = t.find(type);
-    if (it == t.end()) throw ExpressionException(current);
+    if (it == t.end()) throw ExpressionException(type);
     std::vector<Object> res = it->second;
     std::reverse(res.begin(), res.end());
     return res;
@@ -130,7 +139,7 @@ bool ExpressionAnalyzer::isValid(const std::vector<Object>& objects) const
         if (s.top() != object)
         {
             std::cerr << counter << ':';
-            std::cerr << ExpressionException::getErrorMessage(s.top()) << '\n';
+            std::cerr << ExpressionException::getErrorMessage(object) << '\n';
             return false;
         }
         s.pop();
