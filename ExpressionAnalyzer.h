@@ -88,7 +88,7 @@ private:
     static std::vector<Object> getNext(Object current, Object type);
 
 public:
-    bool isValid(const std::vector<Object>& objects) const;
+    bool isValid(const std::vector<std::pair<Object, std::string>>& objects) const;
 };
 
 #endif

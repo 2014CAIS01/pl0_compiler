@@ -85,10 +85,10 @@ std::string ExpressionException::getErrorMessage(Object obj)
         msg += "operator \"/\"";
         break;
     case lparen:
-        msg += "\"(\"";
+        msg += "delimiter \"(\"";
         break;
     case rparen:
-        msg += "\")\"";
+        msg += "delimiter \")\"";
         break;
     case __nuil:
         msg += "EOF";
@@ -111,13 +111,13 @@ std::vector<Object> ExpressionAnalyzer::getNext(Object current, Object type)
     return res;
 }
 
-bool ExpressionAnalyzer::isValid(const std::vector<Object>& objects) const
+bool ExpressionAnalyzer::isValid(const std::vector<std::pair<Object, std::string>>& objects) const
 {
     std::stack<Object> s;
     s.push(__nuil);
     s.push(__expr);
     int counter = 0;
-    for (auto&& object : objects)
+    for (auto&& [object, token] : objects)
     {
         ++counter;
         while (!isTermial(s.top()))
@@ -131,15 +131,15 @@ bool ExpressionAnalyzer::isValid(const std::vector<Object>& objects) const
             }
             catch (const std::exception& e)
             {
-                std::cerr << counter << ':';
-                std::cerr << e.what() << '\n';
+                std::cout << counter << ':';
+                std::cout << e.what() << '\n';
                 return false;
             }
         }
         if (s.top() != object)
         {
-            std::cerr << counter << ':';
-            std::cerr << ExpressionException::getErrorMessage(object) << '\n';
+            std::cout << counter << ':';
+            std::cout << ExpressionException::getErrorMessage(object) << '\n';
             return false;
         }
         s.pop();
