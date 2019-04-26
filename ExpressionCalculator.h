@@ -21,11 +21,9 @@
 
 /**
  * SLR(1):
- * S' -> S      {print(S.val)}
- * S -> APE     {S.val:=P.val(A.val,E.val)}
- * S -> A       {S.val:=A.val}
- * A -> PT      {A.val:=P.val(T.val)}
+ * S -> E       {print(E.val)}
  * E -> E'PT    {E.val:=P.val(E'.val,T.val)}
+ * E -> PT      {E.val:=P.val(T.val)}
  * E -> T       {E.val:=T.val}
  * T -> T'MF    {T.val:=M.val(T'.val,F.val)}
  * T -> F       {T.val:=F.val}
@@ -48,8 +46,6 @@ enum Object
     slash,  // /
     number, // n
 
-    __expr, // S
-    AExpr,  // A
     Expr,   // E
     Term,   // T
     Factor, // F

@@ -2,16 +2,13 @@
 
 const std::vector<std::pair<Object, std::vector<Object>>>
     ExpressionCalculator::production = {
-        {__nuil, {__expr}},
-        {__expr, {AExpr, Plus, Expr}},
-        {__expr, {AExpr}},
-        {AExpr, {Plus, Term}},
-        {AExpr, {Term}},
+        {__nuil, {Expr}},
         {Expr, {Expr, Plus, Term}},
+        {Expr, {Plus, Term}},
         {Expr, {Term}},
         {Term, {Term, Multi, Factor}},
         {Term, {Factor}},
-        {Factor, {lparen, __expr, rparen}},
+        {Factor, {lparen, Expr, rparen}},
         {Factor, {number}},
         {Plus, {plus}},
         {Plus, {minus}},
@@ -24,10 +21,9 @@ const std::vector<std::map<Object, std::pair<Action, int>>> ExpressionCalculator
         {lparen, {Shift, 1}},
         {plus, {Shift, 2}},
         {minus, {Shift, 3}},
-        {number, {Shift, 9}},
-        {__expr, {Goto, 7}},
-        {AExpr, {Goto, 4}},
-        {Term, {Goto, 8}},
+        {number, {Shift, 8}},
+        {Expr, {Goto, 4}},
+        {Term, {Goto, 7}},
         {Factor, {Goto, 5}},
         {Plus, {Goto, 6}}},
     // 1
@@ -35,119 +31,50 @@ const std::vector<std::map<Object, std::pair<Action, int>>> ExpressionCalculator
         {lparen, {Shift, 1}},
         {plus, {Shift, 2}},
         {minus, {Shift, 3}},
-        {number, {Shift, 9}},
-        {__expr, {Goto, 10}},
-        {AExpr, {Goto, 4}},
-        {Term, {Goto, 8}},
+        {number, {Shift, 8}},
+        {Expr, {Goto, 9}},
+        {Term, {Goto, 7}},
         {Factor, {Goto, 5}},
         {Plus, {Goto, 6}}},
     // 2
     {
-        {lparen, {Reduce, 11}},
-        {number, {Reduce, 11}}},
+        {lparen, {Reduce, 8}},
+        {number, {Reduce, 8}}},
     // 3
     {
 
-        {lparen, {Reduce, 12}},
-        {number, {Reduce, 12}}},
+        {lparen, {Reduce, 9}},
+        {number, {Reduce, 9}}},
     // 4
     {
-        {rparen, {Reduce, 2}},
         {plus, {Shift, 2}},
         {minus, {Shift, 3}},
-        {__nuil, {Reduce, 2}},
-        {Plus, {Goto, 11}}},
+        {__nuil, {Accept, 0}},
+        {Plus, {Goto, 10}}},
     // 5
     {
-        {rparen, {Reduce, 8}},
-        {plus, {Reduce, 8}},
-        {minus, {Reduce, 8}},
-        {times, {Reduce, 8}},
-        {slash, {Reduce, 8}},
-        {__nuil, {Reduce, 8}}},
+        {rparen, {Reduce, 5}},
+        {plus, {Reduce, 5}},
+        {minus, {Reduce, 5}},
+        {times, {Reduce, 5}},
+        {slash, {Reduce, 5}},
+        {__nuil, {Reduce, 5}}},
     // 6
     {
         {lparen, {Shift, 1}},
-        {number, {Shift, 9}},
-        {Term, {Goto, 12}},
+        {number, {Shift, 8}},
+        {Term, {Goto, 11}},
         {Factor, {Goto, 5}}},
     // 7
-    {
-        {__nuil, {Accept, 0}}},
-    // 8
-    {
-        {rparen, {Reduce, 4}},
-        {plus, {Reduce, 4}},
-        {minus, {Reduce, 4}},
-        {times, {Shift, 13}},
-        {slash, {Shift, 14}},
-        {__nuil, {Reduce, 4}},
-        {Multi, {Goto, 15}}},
-    // 9
-    {
-        {rparen, {Reduce, 10}},
-        {plus, {Reduce, 10}},
-        {minus, {Reduce, 10}},
-        {times, {Reduce, 10}},
-        {slash, {Reduce, 10}},
-        {__nuil, {Reduce, 10}}},
-    // 10
-    {
-        {rparen, {Shift, 16}}},
-    // 11
-    {
-        {lparen, {Shift, 1}},
-        {number, {Shift, 9}},
-        {Expr, {Goto, 17}},
-        {Term, {Goto, 18}},
-        {Factor, {Goto, 5}}},
-    // 12
     {
         {rparen, {Reduce, 3}},
         {plus, {Reduce, 3}},
         {minus, {Reduce, 3}},
-        {times, {Shift, 13}},
-        {slash, {Shift, 14}},
+        {times, {Shift, 12}},
+        {slash, {Shift, 13}},
         {__nuil, {Reduce, 3}},
-        {Multi, {Goto, 15}}},
-    // 13
-    {
-        {lparen, {Reduce, 13}},
-        {number, {Reduce, 13}}},
-    // 14
-    {
-        {lparen, {Reduce, 14}},
-        {number, {Reduce, 14}}},
-    // 15
-    {
-        {lparen, {Shift, 1}},
-        {number, {Shift, 9}},
-        {Factor, {Goto, 19}}},
-    // 16
-    {
-        {rparen, {Reduce, 9}},
-        {plus, {Reduce, 9}},
-        {minus, {Reduce, 9}},
-        {times, {Reduce, 9}},
-        {slash, {Reduce, 9}},
-        {__nuil, {Reduce, 9}}},
-    // 17
-    {
-        {rparen, {Reduce, 1}},
-        {plus, {Shift, 2}},
-        {minus, {Shift, 3}},
-        {__nuil, {Reduce, 1}},
-        {Plus, {Goto, 20}}},
-    // 18
-    {
-        {rparen, {Reduce, 6}},
-        {plus, {Reduce, 6}},
-        {minus, {Reduce, 6}},
-        {times, {Shift, 13}},
-        {slash, {Shift, 14}},
-        {__nuil, {Reduce, 6}},
-        {Multi, {Goto, 15}}},
-    // 19
+        {Multi, {Goto, 14}}},
+    // 8
     {
         {rparen, {Reduce, 7}},
         {plus, {Reduce, 7}},
@@ -155,21 +82,65 @@ const std::vector<std::map<Object, std::pair<Action, int>>> ExpressionCalculator
         {times, {Reduce, 7}},
         {slash, {Reduce, 7}},
         {__nuil, {Reduce, 7}}},
-    // 20
+    // 9
+    {
+        {rparen, {Shift, 15}},
+        {plus, {Shift, 2}},
+        {minus, {Shift, 3}},
+        {Plus, {Goto, 10}}},
+    // 10
     {
         {lparen, {Shift, 1}},
-        {number, {Shift, 9}},
-        {Term, {Goto, 21}},
+        {number, {Shift, 8}},
+        {Term, {Goto, 16}},
         {Factor, {Goto, 5}}},
-    // 21
+    // 11
     {
-        {rparen, {Reduce, 5}},
-        {plus, {Reduce, 5}},
-        {minus, {Reduce, 5}},
-        {times, {Shift, 13}},
-        {slash, {Shift, 14}},
-        {__nuil, {Reduce, 5}},
-        {Multi, {Goto, 15}}}};
+        {rparen, {Reduce, 2}},
+        {plus, {Reduce, 2}},
+        {minus, {Reduce, 2}},
+        {times, {Shift, 12}},
+        {slash, {Shift, 13}},
+        {__nuil, {Reduce, 2}},
+        {Multi, {Goto, 14}}},
+    // 12
+    {
+        {lparen, {Reduce, 10}},
+        {number, {Reduce, 10}}},
+    // 13
+    {
+        {lparen, {Reduce, 11}},
+        {number, {Reduce, 11}}},
+    // 14
+    {
+        {lparen, {Shift, 1}},
+        {number, {Shift, 8}},
+        {Factor, {Goto, 17}}},
+    // 15
+    {
+        {rparen, {Reduce, 6}},
+        {plus, {Reduce, 6}},
+        {minus, {Reduce, 6}},
+        {times, {Reduce, 6}},
+        {slash, {Reduce, 6}},
+        {__nuil, {Reduce, 6}}},
+    // 16
+    {
+        {rparen, {Reduce, 1}},
+        {plus, {Reduce, 1}},
+        {minus, {Reduce, 1}},
+        {times, {Shift, 12}},
+        {slash, {Shift, 13}},
+        {__nuil, {Reduce, 1}},
+        {Multi, {Goto, 14}}},
+    // 17
+    {
+        {rparen, {Reduce, 4}},
+        {plus, {Reduce, 4}},
+        {minus, {Reduce, 4}},
+        {times, {Reduce, 4}},
+        {slash, {Reduce, 4}},
+        {__nuil, {Reduce, 4}}}};
 
 Object getObject(const std::string& s)
 {
@@ -306,7 +277,7 @@ TResult ExpressionCalculator::calculate(const std::vector<std::pair<Object, std:
                 static TResult buffer[3];
                 static int sz;
                 sz = 0;
-                for (auto& r : reduce)
+                for (auto&& r : reduce)
                 {
                     assert(r == std::get<1>(s.top()));
                     buffer[sz++] = std::get<2>(s.top());
