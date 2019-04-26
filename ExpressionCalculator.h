@@ -29,6 +29,7 @@
  * T -> F       {T.val:=F.val}
  * F -> (S)     {F.val:=S.val}
  * F -> n       {F.val:=n.lexval}
+ * F -> i       {F.val:=i.lexval}
  * P -> +       {P.val:=+.lexval}
  * P -> -       {P.val:=-.lexval}
  * M -> *       {M.val:=*.lexval}
@@ -45,6 +46,7 @@ enum Object
     times,  // *
     slash,  // /
     number, // n
+    ident,  // i
 
     Expr,   // E
     Term,   // T
@@ -85,9 +87,9 @@ public:
     }
 };
 
-Object getObject(const std::string& s);
-
 typedef int TResult;
+Object getObject(const std::string& s);
+void __printitem(const std::pair<TResult, std::string>& item);
 
 class ExpressionCalculator
 {
@@ -102,6 +104,8 @@ private:
     static TResult getLexval(Object obj, std::string);
     static TResult calc(TResult lhs, TResult op, TResult rhs);
     static TResult calc(TResult op, TResult rhs);
+    static void print(Object op, std::pair<TResult, std::string> lhs, std::pair<TResult, std::string> rhs, std::pair<TResult, std::string> res);
+    static void print(Object op, std::pair<TResult, std::string> rhs, std::pair<TResult, std::string> res);
 
 public:
     TResult calculate(const std::vector<std::pair<Object, std::string>>& objects) const;
